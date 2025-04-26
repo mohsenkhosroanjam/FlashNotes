@@ -16,11 +16,18 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, r
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState(false)
 
+  const inputType = showPassword ? 'text' : 'password'
+  const ariaLabel = showPassword ? t('general.actions.hidePassword') : t('general.actions.showPassword')
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       <Input
         ref={ref}
-        type={showPassword ? 'text' : 'password'}
+        type={inputType}
         placeholder={props.placeholder}
         value={props.value}
         onChange={props.onChange}
@@ -45,8 +52,8 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, r
       <div style={{ position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)' }}>
         <IconButton
           variant="ghost"
-          aria-label={showPassword ? t('general.actions.hidePassword') : t('general.actions.showPassword')}
-          onClick={() => setShowPassword(!showPassword)}
+          aria-label={ariaLabel}
+          onClick={handleTogglePassword}
           size="sm"
         >
           {showPassword ? <FiEyeOff /> : <FiEye />}
@@ -55,7 +62,5 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, r
     </div>
   )
 })
-
-PasswordInput.displayName = 'PasswordInput'
 
 export default PasswordInput 
